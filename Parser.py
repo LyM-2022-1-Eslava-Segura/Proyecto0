@@ -58,10 +58,10 @@ def leer(nombre):
                         r= 'No'
                     if li[i+7] != ('l' or 'r' or 'a'):
                         r='No'
-                elif (li[i+1]) == 'put' and (li[i+1]) in lista_tokens:
+                elif (li[i+1]+li[i+2]+li[i+3]) == 'put' and (li[i+1]+li[i+2]+li[i+3]) in lista_tokens:
                     if (li[i+2]) != '':
                         r = 'No'
-                elif (li[i+1]+li[i+2]+li[i+3]+li[i+4]) == 'pick' and (li[i+1]) in lista_tokens:
+                elif (li[i+1]+li[i+2]+li[i+3]+li[i+4]) == 'pick' and (li[i+1]+li[i+2]+li[i+3]+li[i+4]) in lista_tokens:
                     if (li[i+2]) != '':
                         r = 'No'
 
