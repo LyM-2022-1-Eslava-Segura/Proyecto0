@@ -1,5 +1,5 @@
-( defvar rotate 3)
-( defun blocked -p ()
+(defvar rotate 3)
+(defun blocked -p ()
     (not (can -move -p : north )))
  (if (blocked -p) (move 1) (skip))
  
@@ -8,7 +8,7 @@
  (turn :left)
  )
 
- (define one 1)
+ (defvar one 1)
  (defun foo (c p)
     (drop c)
     (free p)

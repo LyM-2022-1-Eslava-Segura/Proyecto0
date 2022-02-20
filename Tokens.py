@@ -14,7 +14,7 @@ def leer_archivo(nombre):
     file.close
     letras = ['a','b','c','d','e','f','g','h','i','j','k',
             'm','n','l','o','p','q','r','s','t','u','v','w',
-            'x','y','z','?']
+            'x','y','z','?','-',':']
     digitos = ['0','1','2','3','4','5','6','7','8','9']
     tokens = []
     tokens_sin_repetir = []
