@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-archivo = open('prueba1.txt' , 'r')
+archivo = open('prueba.txt' , 'r')
 
 variables = {}
 
@@ -33,7 +33,7 @@ def recorrido(linea):
     lista_linea = linea.split(' ')
     lista_linea[0]= lista_linea[0].strip('\n')
     solucion = False
-    boolean = ["BLOCKEDP","!BLOCKEDP", " BLOCKEDP", " !BLOCKEDP"]
+    boolean = ["(facing-p","(can-put-p", "(can-pick-p", "(can-move-p", "(not"]
     var = (lista_linea[0].strip(")"))
     
         
@@ -121,7 +121,7 @@ def recorrido(linea):
         else:
             solucion    
 
-    elif lista_linea[0] == 'IF' and (lista_linea[1] in boolean) and (lista_linea[2][0] == "["):
+    elif lista_linea[0] == '(if' and (lista_linea[1] in boolean) and (lista_linea[2].find('(')>=0) and (lista_linea[3].find('(')>=0):
         respuesta = if_command(linea)
         if respuesta == True:
             solucion = True
@@ -129,22 +129,22 @@ def recorrido(linea):
             solucion
                         
             
-    elif lista_linea[0] == '(BLOCK' or lista_linea[0] == '( BLOCK':
-        respuesta = block(linea)
+    elif lista_linea[0] == '(loop' and lista_linea[1] in boolean:
+        respuesta = loop(linea)
         if respuesta == True:
             solucion = True
         else:
             solucion
             
-    elif (lista_linea[0] == '(REPEAT'or lista_linea[0] == '( REPEAT') and (lista_linea[1].isdigit() == True) :
-        respuesta = repeat(linea)
+    elif (lista_linea[0] == '(repeat') and (lista_linea[1].isdigit() == True) :
+        respuesta = repeat_times(linea)
         if respuesta == True:
             solucion = True
         else:
             solucion
     
-    elif lista_linea[0] == 'TO':
-        respuesta = to_end(linea,lista_linea)
+    elif lista_linea[0] == '(defun':
+        respuesta = defun(linea,lista_linea)
         if respuesta == True:
             solucion = True
         else:
@@ -316,65 +316,20 @@ def skip(lista:list):
     return respuesta
 
 
-# Función para comando 'IF'
+# Función para comando 'if'
 def if_command(linea:str):
-    
+
     respuesta = False
     centinela = True
     
     while centinela == True:
-        
-        if "[" in linea:
-            pos = linea.find("[")
-            linea = linea[pos+1:]
-            if linea is None:
-                linea = archivo.readline()
-                solucion = recorrido(linea)
-                if solucion == True:
-                    respuesta = True
-                else:
-                    respuesta
-                    break
-            else:
-                solucion = recorrido(linea)
-                if solucion == True:
-                    respuesta = True
-                else:
-                    respuesta
-                    break
-                
-        elif "]" in linea:
-            pos = linea.find("]")
-            linea = linea[:pos]
-            centinela = False
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
-                
-        else:
-            linea = archivo.readline()
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
-        
-    return respuesta
-
-# Función para comando 'BLOCK'
-def block(linea:str):
-    
-    respuesta = False
+        respuesta = False
     centinela = True
     
     while centinela == True:
         
         if "(" in linea:
-            pos = linea.find("K")
+            pos = linea.find("(")
             linea = linea[pos+1:]
             if linea is None:
                 linea = archivo.readline()
@@ -394,56 +349,6 @@ def block(linea:str):
                 
         elif ")" in linea:
             pos = linea.find(")")
-            linea = linea[:pos]
-            centinela = False
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
-                
-        else:
-            linea = archivo.readline()
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
-        
-    return respuesta
-            
-    
-# Función para comando 'REPEAT'
-def repeat(linea:str):
-    
-    respuesta = False
-    centinela = True
-    
-    while centinela == True:
-        
-        if "[" in linea:
-            pos = linea.find("[")
-            linea = linea[pos+1:]
-            if linea is None:
-                linea = archivo.readline()
-                solucion = recorrido(linea)
-                if solucion == True:
-                    respuesta = True
-                else:
-                    respuesta
-                    break
-            else:
-                solucion = recorrido(linea)
-                if solucion == True:
-                    respuesta = True
-                else:
-                    respuesta
-                    break
-                
-        elif "]" in linea:
-            pos = linea.find("]")
             linea = linea[pos]
             solucion = recorrido(linea)
             if solucion == True:
@@ -452,10 +357,96 @@ def repeat(linea:str):
                     respuesta
                     break
                 
+        else:
+            linea = archivo.readline()
+            solucion = recorrido(linea)
+            if solucion == True:
+                    respuesta = True
+            else:
+                    respuesta
+                    break
+        
+        pass
+
+# Función para comando 'loop'
+def loop(linea: str):
+    respuesta = False
+    centinela = True
+    
+    while centinela == True:
+        
+        if "(" in linea:
+            pos = linea.find("(")
+            linea = linea[pos+1:]
+            if linea is None:
+                linea = archivo.readline()
+                solucion = recorrido(linea)
+                if solucion == True:
+                    respuesta = True
+                else:
+                    respuesta
+                    break
+            else:
+                solucion = recorrido(linea)
+                if solucion == True:
+                    respuesta = True
+                else:
+                    respuesta
+                    break
+                
         elif ")" in linea:
             pos = linea.find(")")
-            linea = linea[:pos]
-            centinela = False
+            linea = linea[pos]
+            solucion = recorrido(linea)
+            if solucion == True:
+                    respuesta = True
+            else:
+                    respuesta
+                    break
+                
+        else:
+            linea = archivo.readline()
+            solucion = recorrido(linea)
+            if solucion == True:
+                    respuesta = True
+            else:
+                    respuesta
+                    break
+        
+
+    return respuesta
+            
+    
+# Función para comando 'repeatTimes'
+def repeat_times(linea:str):
+    
+    respuesta = False
+    centinela = True
+    
+    while centinela == True:
+        
+        if "(" in linea:
+            pos = linea.find("(")
+            linea = linea[pos+1:]
+            if linea is None:
+                linea = archivo.readline()
+                solucion = recorrido(linea)
+                if solucion == True:
+                    respuesta = True
+                else:
+                    respuesta
+                    break
+            else:
+                solucion = recorrido(linea)
+                if solucion == True:
+                    respuesta = True
+                else:
+                    respuesta
+                    break
+                
+        elif ")" in linea:
+            pos = linea.find(")")
+            linea = linea[pos]
             solucion = recorrido(linea)
             if solucion == True:
                     respuesta = True
@@ -474,12 +465,12 @@ def repeat(linea:str):
         
     return respuesta
 
-def to_end(linea:str,lista:list):
+def defun(linea:str,lista:list):
     
     
     
     funcion= []
-    nombre = lista[1].strip("\n")
+    nombre = lista[1]
     funciones.append(nombre)
     
     respuesta = False
@@ -491,8 +482,8 @@ def to_end(linea:str,lista:list):
         linea = linea.strip(" ")
         lista = linea.split(" ")
         
-        if ":" in linea:
-            pos = linea.find(":")
+        if "(" in linea:
+            pos = linea.find("(")
             linea = linea[pos:]
             if linea is None:
                 linea = archivo.readline()
@@ -505,12 +496,12 @@ def to_end(linea:str,lista:list):
             else:
                 parametros = linea.split(' ')
                 for i in range (0,len(parametros)):
-                    parametro = parametros[i].lstrip(":")
+                    parametro = parametros[i]
                     funcion.append(parametro)
                     variables[parametro] = 0
                 linea = archivo.readline()
         
-        elif "TO" in linea and len(lista) == 2:
+        elif "defun" in linea and len(lista) == 3:
             linea = linea[:0]
             solucion = recorrido(linea)
             if solucion == True:
@@ -519,39 +510,7 @@ def to_end(linea:str,lista:list):
                     respuesta
                     break
             linea = archivo.readline()
-            
-
-        elif "OUTPUT" in linea: 
-            pos = linea.find("T",3,8)
-            linea = linea[pos+1:]
-            if linea is None:
-                linea = archivo.readline()
-                solucion = recorrido(linea)
-                if solucion == True:
-                    respuesta = True
-                else:
-                    respuesta
-                    break
-            else:
-                solucion = recorrido(linea)
-                if solucion == True:
-                    respuesta = True
-                else:
-                    respuesta
-                    break
-                
-        elif "END" in linea:
-            pos = linea.find("D")
-            linea = linea[:pos+1]
-            centinela = False
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
-                
-                
+                     
         else:
             linea = archivo.readline()
             solucion = recorrido(linea)
