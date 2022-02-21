@@ -124,7 +124,7 @@ def recorrido(linea):
         else:
             solucion    
 
-    elif lista_linea[0] == '(if' and (lista_linea[1] in boolean) and (lista_linea[2].find('(')>=0) and (lista_linea[3].find('(')>=0):
+    elif lista_linea[0] == '(if':
         respuesta = if_command(linea)
         if respuesta == True:
             solucion = True
@@ -326,14 +326,14 @@ def if_command(linea:str):
     centinela = True
     
     while centinela == True:
-        pos=linea.rfind(')')
+        pos=linea.rfind(')')  
         linea.strip[linea[0]]
         while len(nueva_linea)!=0:
             linea.strip("\n")
             nueva_linea=archivo.readline()
             linea+=nueva_linea
         linea.replace(' ','')
-        bloque=[]
+        bloque=[] 
         condicion=[]
         for c in linea:
             if c =='('and len(condicion)==0:
@@ -347,7 +347,7 @@ def if_command(linea:str):
         for c in linea:
             if c =='(' and len(bloque)==0:
                 bloque.append(c)
-            if len(bloque==1):
+            if len(bloque>1):
                 j=c
                 while j!=')':
                     bloque[0]+c
