@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from xmlrpc.client import boolean
+
+
 archivo = open('prueba.txt' , 'r')
 
 variables = {}
@@ -323,50 +326,50 @@ def if_command(linea:str):
     centinela = True
     
     while centinela == True:
-        respuesta = False
-    centinela = True
-    
-    while centinela == True:
-        
-        if "(" in linea:
-            pos = linea.find("(")
-            linea = linea[pos+1:]
-            if linea is None:
-                linea = archivo.readline()
-                solucion = recorrido(linea)
-                if solucion == True:
-                    respuesta = True
-                else:
-                    respuesta
-                    break
-            else:
-                solucion = recorrido(linea)
-                if solucion == True:
-                    respuesta = True
-                else:
-                    respuesta
-                    break
-                
-        elif ")" in linea:
-            pos = linea.find(")")
-            linea = linea[pos]
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
-                
+        pos=linea.rfind(')')
+        linea.strip[linea[0]]
+        while len(nueva_linea)!=0:
+            linea.strip("\n")
+            nueva_linea=archivo.readline()
+            linea+=nueva_linea
+        linea.replace(' ','')
+        bloque=[]
+        condicion=[]
+        for c in linea:
+            if c =='('and len(condicion)==0:
+                condicion.append(c)
+            if len(condicion==1):
+                p=c
+                while p!=')':
+                    condicion[0]+c
+                    p==')'
+        linea.strip(condicion[0])
+        for c in linea:
+            if c =='(' and len(bloque)==0:
+                bloque.append(c)
+            if len(bloque==1):
+                j=c
+                while j!=')':
+                    bloque[0]+c
+                    j=')'
+        if ((condicion[0] in boolean) or (condicion[0] in funciones)) and len(bloque)==2:
+            respuesta = True
+            break
         else:
-            linea = archivo.readline()
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
+            respuesta = False
+            break
         
-        pass
+    return respuesta   
+
+
+
+                                
+        
+
+        
+
+
+
 
 # Función para comando 'loop'
 def loop(linea: str):
