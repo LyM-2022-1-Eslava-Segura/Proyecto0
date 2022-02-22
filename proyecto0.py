@@ -333,7 +333,6 @@ def if_command(linea:str):
         while len(nueva_linea)!=0:
             linea.strip("\n")
             nueva_linea=archivo.readline()
-            linea+=nueva_linea
         linea.replace(' ','')
         bloque=[] 
         condicion=[]
@@ -372,7 +371,6 @@ def loop(linea: str):
     while len(nueva_linea)!=0:
         linea.strip("\n")
         nueva_linea=archivo.readline()
-        linea+=nueva_linea
         linea.replace(' ','')
     dicc={'(':1,
           ')':0}
@@ -424,7 +422,6 @@ def repeat_times(linea:str):
     while len(nueva_linea)!=0:
         linea.strip("\n")
         nueva_linea=archivo.readline()
-        linea+=nueva_linea
     linea.replace(' ','')
     dicc={'(':1,
           ')':0}
