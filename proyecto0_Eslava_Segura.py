@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+# Proyecto 0 Lenguajes y máquinas 2022-1
+# 
+# Juan Andrés Eslava cod: 202012035
+#
+# Alejandro Segura cod: 
+#
 
 from ast import Break
 from pickle import FALSE
