@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from pickle import FALSE
 from xmlrpc.client import boolean
 
 
@@ -15,7 +16,7 @@ posiciones=[':around',':left', ':right']
 posiciones2=[':front',':left', ':right',':back']
 puntos_cardinales=[':north',':east',':west',':south']
 objetos=['Balloons', 'Chips']
-
+comandos=['(defvar','(=','(move','(turn','(face','(put','(pick','(move-dir','(run-dirs','(move-face','(skip']
 def main (archivo):
     
     for linea in archivo:
@@ -327,7 +328,7 @@ def if_command(linea:str):
     
     while centinela == True:
         pos=linea.rfind(')')  
-        linea.strip[linea[0]]
+        linea[0].strip('(')
         while len(nueva_linea)!=0:
             linea.strip("\n")
             nueva_linea=archivo.readline()
@@ -362,170 +363,95 @@ def if_command(linea:str):
     return respuesta   
 
 
-
-                                
-        
-
-        
-
-
-
-
 # Función para comando 'loop'
 def loop(linea: str):
     respuesta = False
     centinela = True
     
     while centinela == True:
+        pos=linea.rfind(')')  
+        linea[0].strip('(')
+        while len(nueva_linea)!=0:
+            linea.strip("\n")
+            nueva_linea=archivo.readline()
+            linea+=nueva_linea
+        linea.replace(' ','')
+        bloque=[] 
+        condicion=[]
+        for c in linea:
+            if c =='('and len(condicion)==0:
+                condicion.append(c)
+            if len(condicion==1):
+                p=c
+                while p!=')':
+                    condicion[0]+c
+                    p==')'
+        linea.strip(condicion[0])
+
+
+
         
-        if "(" in linea:
-            pos = linea.find("(")
-            linea = linea[pos+1:]
-            if linea is None:
-                linea = archivo.readline()
-                solucion = recorrido(linea)
-                if solucion == True:
-                    respuesta = True
-                else:
-                    respuesta
-                    break
-            else:
-                solucion = recorrido(linea)
-                if solucion == True:
-                    respuesta = True
-                else:
-                    respuesta
-                    break
-                
-        elif ")" in linea:
-            pos = linea.find(")")
-            linea = linea[pos]
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
-                
+        for c in linea:
+            if c =='(' and len(bloque)==0:
+                bloque.append(c)
+            if len(bloque==1):
+                j=c
+                while j!=')':
+                    bloque[0]+c
+                    j=')'
+        if ((condicion[0] in boolean) or (condicion[0] in funciones)) and len(bloque)==1:
+            respuesta = True
+            break
         else:
-            linea = archivo.readline()
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
+            respuesta = False
+            break
+        
+    return respuesta   
+            
         
 
-    return respuesta
             
     
 # Función para comando 'repeatTimes'
 def repeat_times(linea:str):
-    
-    respuesta = False
-    centinela = True
-    
-    while centinela == True:
-        
-        if "(" in linea:
-            pos = linea.find("(")
-            linea = linea[pos+1:]
-            if linea is None:
-                linea = archivo.readline()
-                solucion = recorrido(linea)
-                if solucion == True:
-                    respuesta = True
-                else:
-                    respuesta
-                    break
+    pos=linea.rfind(')')  
+    linea[0].strip('(')
+    while len(nueva_linea)!=0:
+        linea.strip("\n")
+        nueva_linea=archivo.readline()
+        linea+=nueva_linea
+    linea.replace(' ','')
+    dicc={'(':1,
+          ')':0}
+    for c in linea:
+        if c == '(':
+            dicc['(']+=1
+        if c == ')':
+            dicc[')']+=1
+    if dicc['(']==dicc[')']:
+        respuesta = True
+    else:
+        respuesta=False
+    if respuesta == True:
+        bloque=''
+        pos=linea.find('(')
+        while pos < len(linea):
+            bloque+=linea[pos]
+            pos+=1
+        list_bloque=bloque.split(')')
+        for command in list_bloque:
+            if (command.find(comandos[0]>=0)) or (command.find(comandos[1]>=0)) or (command.find(comandos[2]>=0)) or (command.find(comandos[3]>=0)) or (command.find(comandos[4]>=0)) or (command.find(comandos[5]>=0)) or (command.find(comandos[6]>=0)) or (command.find(comandos[7]>=0)) or (command.find(comandos[8]>=0)) or (command.find(comandos[9]>=0)) or (command.find(comandos[10]>=0)):
+                respuesta= True
             else:
-                solucion = recorrido(linea)
-                if solucion == True:
-                    respuesta = True
-                else:
-                    respuesta
-                    break
-                
-        elif ")" in linea:
-            pos = linea.find(")")
-            linea = linea[pos]
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
-                
-        else:
-            linea = archivo.readline()
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
-        
+                respuesta=False
+                break
     return respuesta
+        
+            
 
+#Función para 'defun'
 def defun(linea:str,lista:list):
-    
-    
-    
-    funcion= []
-    nombre = lista[1]
-    funciones.append(nombre)
-    
-    respuesta = False
-    centinela = True
-    
-    while centinela == True:
-        
-        linea = linea.strip("\n")
-        linea = linea.strip(" ")
-        lista = linea.split(" ")
-        
-        if "(" in linea:
-            pos = linea.find("(")
-            linea = linea[pos:]
-            if linea is None:
-                linea = archivo.readline()
-                solucion = recorrido(linea)
-                if solucion == True:
-                   respuesta = True
-                else:
-                    respuesta
-                    break
-            else:
-                parametros = linea.split(' ')
-                for i in range (0,len(parametros)):
-                    parametro = parametros[i]
-                    funcion.append(parametro)
-                    variables[parametro] = 0
-                linea = archivo.readline()
-        
-        elif "defun" in linea and len(lista) == 3:
-            linea = linea[:0]
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
-            linea = archivo.readline()
-                     
-        else:
-            linea = archivo.readline()
-            solucion = recorrido(linea)
-            if solucion == True:
-                    respuesta = True
-            else:
-                    respuesta
-                    break
-                
-    almacenamiento[nombre] = funcion
-        
-    return respuesta
+    pass
             
 
 
