@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from ast import Break
 from pickle import FALSE
 from xmlrpc.client import boolean
 
@@ -365,46 +366,50 @@ def if_command(linea:str):
 
 # Función para comando 'loop'
 def loop(linea: str):
-    respuesta = False
-    centinela = True
     
-    while centinela == True:
-        pos=linea.rfind(')')  
-        linea[0].strip('(')
-        while len(nueva_linea)!=0:
-            linea.strip("\n")
-            nueva_linea=archivo.readline()
-            linea+=nueva_linea
+    pos=linea.rfind(')')  
+    linea[0].strip('(')
+    while len(nueva_linea)!=0:
+        linea.strip("\n")
+        nueva_linea=archivo.readline()
+        linea+=nueva_linea
         linea.replace(' ','')
-        bloque=[] 
+    dicc={'(':1,
+          ')':0}
+    for c in linea:
+        if c == '(':
+            dicc['(']+=1
+        if c == ')':
+            dicc[')']+=1
+    if dicc['(']==dicc[')']:
+        respuesta = True
+    else:
+        respuesta=False
+    if respuesta == True:
+        cadena_completa=''
+        bloque=[]
         condicion=[]
-        for c in linea:
-            if c =='('and len(condicion)==0:
-                condicion.append(c)
-            if len(condicion==1):
-                p=c
-                while p!=')':
-                    condicion[0]+c
-                    p==')'
-        linea.strip(condicion[0])
-
-
-
-        
-        for c in linea:
-            if c =='(' and len(bloque)==0:
-                bloque.append(c)
-            if len(bloque==1):
-                j=c
-                while j!=')':
-                    bloque[0]+c
-                    j=')'
-        if ((condicion[0] in boolean) or (condicion[0] in funciones)) and len(bloque)==1:
+        pos= linea.find('(')
+        while pos < len(linea):
+            cadena_completa+=linea[pos]
+            pos+=1
+        bloque_con_condicion=cadena_completa.split(')')    
+        condicion.append(bloque_con_condicion[0])
+        i=1
+        while i < len(bloque_con_condicion):
+            bloque.append(bloque_con_condicion[i])
+            i+=1
+        if condicion[0] in boolean or condicion[0] in funciones:
             respuesta = True
-            break
-        else:
-            respuesta = False
-            break
+        else: 
+            respuesta = False 
+        if respuesta == True:    
+            for command in bloque:
+                if (command.find(comandos[0]>=0)) or (command.find(comandos[1]>=0)) or (command.find(comandos[2]>=0)) or (command.find(comandos[3]>=0)) or (command.find(comandos[4]>=0)) or (command.find(comandos[5]>=0)) or (command.find(comandos[6]>=0)) or (command.find(comandos[7]>=0)) or (command.find(comandos[8]>=0)) or (command.find(comandos[9]>=0)) or (command.find(comandos[10]>=0)):
+                    respuesta= True
+                else:
+                    respuesta=False
+                    break
         
     return respuesta   
             
